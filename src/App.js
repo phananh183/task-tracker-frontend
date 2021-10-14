@@ -2,6 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import Header from './Components/Header';
 import Tasks from './Components/Tasks';
+import AddForm from './Components/AddForm';
 
 function App() {
 
@@ -28,11 +29,29 @@ function App() {
 
       },
     ])
+  
+  const deleteTask = (id) => {
+    setTasks(tasks.filter(task => task.id !== id))
+    console.log("Deleted task ", id)
+  }
+
+  const toggleReminder = (id) => {
+    setTasks(tasks.map((task) => 
+      task.id === id ? {...task, reminder: !task.reminder} : task
+    ))
+
+    console.log('Double click', id)
+  }
 
   return (
   <div className='container'>
     <Header />
-    <Tasks tasks={tasks}/>
+    <AddForm />
+    {
+    tasks.length === 0 
+    ? 'There is no tasks' 
+    : <Tasks tasks={tasks} onDelete={deleteTask} onDoubleClick={toggleReminder}/>
+    }
   </div>
   );
 }
