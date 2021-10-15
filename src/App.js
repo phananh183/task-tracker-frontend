@@ -6,6 +6,8 @@ import AddForm from './Components/AddForm';
 
 function App() {
 
+  const [showAddTask, setShowAddTask] = useState(false)
+
   const [tasks, setTasks] = useState([
       {
           id: 1,
@@ -39,14 +41,25 @@ function App() {
     setTasks(tasks.map((task) => 
       task.id === id ? {...task, reminder: !task.reminder} : task
     ))
+  }
 
-    console.log('Double click', id)
+  const addTask = (task) => {
+    //Assign a random id between 0 and 100
+    const id = Math.floor(Math.random() * 100)
+    const newTask = {id, ...task}
+
+    console.log(newTask)
+    setTasks([...tasks, newTask])
+  }
+
+  const toggleShowAddTask = () => {
+    setShowAddTask(!showAddTask)
   }
 
   return (
   <div className='container'>
-    <Header />
-    <AddForm />
+    <Header onShowAddTask={toggleShowAddTask} showAddTask={showAddTask}/>
+    {showAddTask && <AddForm onAdd={addTask}/>}
     {
     tasks.length === 0 
     ? 'There is no tasks' 
