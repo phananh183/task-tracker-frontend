@@ -6,8 +6,6 @@ import AddForm from './Components/AddForm';
 function App() {
 
   const [showAddTask, setShowAddTask] = useState(false)
-
-
   const [tasks, setTasks] = useState([])
 
   useEffect(() => {
@@ -20,19 +18,19 @@ function App() {
   }, [])
 
   const fetchTasks = async () => {
-    const res = await fetch("http://localhost:5000/tasks")
+    const res = await fetch("http://localhost:3001/api/tasks")
     const data = await res.json()
     return data
   }
 
   const fetchTaskByID = async (id) => {
-    const res = await fetch(`http://localhost:5000/tasks/${id}`)
+    const res = await fetch(`http://localhost:3001/api/tasks/${id}`)
     const data = await res.json()
     return data
   }
   
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/tasks/${id}`, {
+    await fetch(`http://localhost:3001/api/tasks/${id}`, {
       method: 'DELETE',
     })
 
@@ -43,7 +41,7 @@ function App() {
     const taskToChange = await fetchTaskByID(id)
     const updatedTask = {...taskToChange, reminder: !taskToChange.reminder}
 
-    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+    const res = await fetch(`http://localhost:3001/api/tasks/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -60,7 +58,7 @@ function App() {
 
   const addTask = async (task) => {
 
-    const res = await fetch('http://localhost:5000/tasks', {
+    const res = await fetch('http://localhost:3001/api/tasks', {
       method: 'POST',
       headers: {
         "Content-Type": 'application/json'
